@@ -1,3 +1,4 @@
+require 'byebug'
 class Node
   attr_accessor :key, :val, :next, :prev
 
@@ -13,13 +14,21 @@ class Node
   end
 
   def remove
-    # optional but useful, connects previous link to next link
-    # and removes self from list.
+    prev_node = self.prev
+    next_node = self.next
+    prev_node.next = next_node
+    next_node.prev = prev_node
   end
 end
 
 class LinkedList
+  attr_reader :head, :tail
+
   def initialize
+    @head = Node.new
+    @tail = Node.new
+    @head.next = @tail
+    @tail.prev = @head
   end
 
   def [](i)
@@ -28,12 +37,15 @@ class LinkedList
   end
 
   def first
+    self.head.next
   end
 
   def last
+    self.tail.prev
   end
 
   def empty?
+    first == self.tail
   end
 
   def get(key)
@@ -43,9 +55,26 @@ class LinkedList
   end
 
   def append(key, val)
+    new_node = Node.new(key, val)
+    new_node.prev = self.tail.prev
+    new_node.next = self.tail
+    new_node.prev.next = new_node
+    self.tail.prev = new_node
+    new_node
   end
 
   def update(key, val)
+    queue = [first]
+    until queue.empty? || queue.first.key.nil?
+      to_check = queue.shift
+      # break if to_check.key.nil?
+      if to_check.key == key
+        return to_check.val = val
+      else
+        queue << to_check.next
+      end
+    end
+    nil
   end
 
   def remove(key)

@@ -14,7 +14,7 @@ class HashSet
       end
     else
       # debugger
-      resize!
+      resize! #O(n)
       insert(num)
       # self[num] << num
       # @count += 1
