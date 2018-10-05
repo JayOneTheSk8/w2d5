@@ -49,6 +49,7 @@ class LinkedList
   end
 
   def get(key)
+    search(key).val unless search(key).nil?
   end
 
   def include?(key)
@@ -64,11 +65,15 @@ class LinkedList
   end
 
   def update(key, val)
+    search(key).val = val unless search(key).nil?
+  end
+
+  def search(key)
     queue = [first]
     until queue.empty? || queue.first.key.nil?
       to_check = queue.shift
       if to_check.key == key
-        return to_check.val = val
+        return to_check
       else
         queue << to_check.next
       end
@@ -77,6 +82,7 @@ class LinkedList
   end
 
   def remove(key)
+    search(key).remove unless search(key).nil?
   end
 
   def each
