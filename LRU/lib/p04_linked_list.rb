@@ -67,7 +67,6 @@ class LinkedList
     queue = [first]
     until queue.empty? || queue.first.key.nil?
       to_check = queue.shift
-      # break if to_check.key.nil?
       if to_check.key == key
         return to_check.val = val
       else
